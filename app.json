@@ -1,0 +1,747 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "chint.dtsu666.modbus",
+  "version": "1.0.0",
+  "compatibility": ">=12.13.0",
+  "sdk": 3,
+  "brandColor": "#0a5aa8",
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Chint DTSU666 (Modbus)",
+    "nl": "Chint DTSU666 (Modbus)"
+  },
+  "description": {
+    "en": "Read a Chint DTSU666 three-phase energy meter over Modbus TCP or RTU-over-TCP, with charging sessions for an EV charger",
+    "nl": "Lees een Chint DTSU666 driefasenmeter uit via Modbus TCP of RTU-over-TCP, met laadsessies voor een laadpaal"
+  },
+  "category": [
+    "energy"
+  ],
+  "tags": {
+    "en": [
+      "chint",
+      "dtsu666",
+      "energy meter",
+      "modbus",
+      "ev charger",
+      "kwh"
+    ],
+    "nl": [
+      "chint",
+      "dtsu666",
+      "energiemeter",
+      "kwh-meter",
+      "modbus",
+      "laadpaal"
+    ]
+  },
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Chint DTSU666 app",
+    "email": "chint-dtsu666@example.com"
+  },
+  "flow": {
+    "triggers": [
+      {
+        "id": "charging_started",
+        "title": {
+          "en": "Charging started",
+          "nl": "Laden is gestart"
+        },
+        "tokens": [
+          {
+            "name": "power",
+            "type": "number",
+            "title": {
+              "en": "Power (W)",
+              "nl": "Vermogen (W)"
+            },
+            "example": 7400
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dtsu666"
+          }
+        ]
+      },
+      {
+        "id": "charging_stopped",
+        "title": {
+          "en": "Charging stopped",
+          "nl": "Laden is gestopt"
+        },
+        "tokens": [
+          {
+            "name": "energy",
+            "type": "number",
+            "title": {
+              "en": "Energy (kWh)",
+              "nl": "Energie (kWh)"
+            },
+            "example": 18.4
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "title": {
+              "en": "Duration (min)",
+              "nl": "Duur (min)"
+            },
+            "example": 150
+          },
+          {
+            "name": "meter_start",
+            "type": "number",
+            "title": {
+              "en": "Meter at start (kWh)",
+              "nl": "Meterstand begin (kWh)"
+            },
+            "example": 1234.5
+          },
+          {
+            "name": "meter_end",
+            "type": "number",
+            "title": {
+              "en": "Meter at end (kWh)",
+              "nl": "Meterstand einde (kWh)"
+            },
+            "example": 1252.9
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dtsu666"
+          }
+        ]
+      },
+      {
+        "id": "phase_current_above",
+        "title": {
+          "en": "Current on a phase rose above ...",
+          "nl": "Stroom op een fase steeg boven ..."
+        },
+        "titleFormatted": {
+          "en": "Current on a phase rose above [[current]] A",
+          "nl": "Stroom op een fase steeg boven [[current]] A"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dtsu666"
+          },
+          {
+            "type": "number",
+            "name": "current",
+            "min": 0,
+            "max": 100,
+            "step": 0.5,
+            "placeholder": {
+              "en": "Ampere",
+              "nl": "Ampère"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "phase",
+            "type": "string",
+            "title": {
+              "en": "Phase",
+              "nl": "Fase"
+            },
+            "example": "L1"
+          },
+          {
+            "name": "current",
+            "type": "number",
+            "title": {
+              "en": "Current (A)",
+              "nl": "Stroom (A)"
+            },
+            "example": 16.2
+          }
+        ]
+      },
+      {
+        "id": "custom_value_changed",
+        "title": {
+          "en": "Extra register value changed",
+          "nl": "Waarde van extra register is veranderd"
+        },
+        "titleFormatted": {
+          "en": "Value of [[register]] changed",
+          "nl": "Waarde van [[register]] is veranderd"
+        },
+        "hint": {
+          "en": "Leave the register empty to trigger on any extra register.",
+          "nl": "Laat het register leeg om op elk extra register te reageren."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dtsu666"
+          },
+          {
+            "type": "autocomplete",
+            "name": "register",
+            "title": {
+              "en": "Register",
+              "nl": "Register"
+            },
+            "placeholder": {
+              "en": "Choose an extra register",
+              "nl": "Kies een extra register"
+            },
+            "required": false
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Name",
+              "nl": "Naam"
+            },
+            "example": "Blindvermogen"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "title": {
+              "en": "Value",
+              "nl": "Waarde"
+            },
+            "example": 12.3
+          },
+          {
+            "name": "unit",
+            "type": "string",
+            "title": {
+              "en": "Unit",
+              "nl": "Eenheid"
+            },
+            "example": "var"
+          }
+        ]
+      }
+    ],
+    "conditions": [
+      {
+        "id": "is_charging",
+        "title": {
+          "en": "!{{Is|Is not}} charging",
+          "nl": "!{{Is|Is niet}} aan het laden"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dtsu666"
+          }
+        ]
+      },
+      {
+        "id": "session_energy_above",
+        "title": {
+          "en": "Session energy !{{is|is not}} above ...",
+          "nl": "Energie laadsessie !{{is|is niet}} hoger dan ..."
+        },
+        "titleFormatted": {
+          "en": "Session energy !{{is|is not}} above [[energy]] kWh",
+          "nl": "Energie laadsessie !{{is|is niet}} hoger dan [[energy]] kWh"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dtsu666"
+          },
+          {
+            "type": "number",
+            "name": "energy",
+            "min": 0,
+            "step": 0.1,
+            "placeholder": {
+              "en": "kWh",
+              "nl": "kWh"
+            }
+          }
+        ]
+      },
+      {
+        "id": "custom_value_above",
+        "title": {
+          "en": "Extra register !{{is|is not}} above ...",
+          "nl": "Extra register !{{is|is niet}} hoger dan ..."
+        },
+        "titleFormatted": {
+          "en": "[[register]] !{{is|is not}} above [[value]]",
+          "nl": "[[register]] !{{is|is niet}} hoger dan [[value]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dtsu666"
+          },
+          {
+            "type": "autocomplete",
+            "name": "register",
+            "title": {
+              "en": "Register",
+              "nl": "Register"
+            },
+            "placeholder": {
+              "en": "Choose an extra register",
+              "nl": "Kies een extra register"
+            }
+          },
+          {
+            "type": "number",
+            "name": "value",
+            "step": 0.01,
+            "placeholder": {
+              "en": "Value",
+              "nl": "Waarde"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "DTSU666 energy meter",
+        "nl": "DTSU666 energiemeter"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "measure_power",
+        "charging",
+        "meter_power.session",
+        "session_duration",
+        "meter_power.today",
+        "meter_power",
+        "meter_power.exported",
+        "measure_power.l1",
+        "measure_power.l2",
+        "measure_power.l3",
+        "measure_voltage.l1",
+        "measure_voltage.l2",
+        "measure_voltage.l3",
+        "measure_current.l1",
+        "measure_current.l2",
+        "measure_current.l3",
+        "measure_frequency",
+        "power_factor"
+      ],
+      "capabilitiesOptions": {
+        "measure_power": {
+          "decimals": 0,
+          "title": {
+            "en": "Power (total)",
+            "nl": "Vermogen (totaal)"
+          }
+        },
+        "meter_power.session": {
+          "decimals": 2,
+          "title": {
+            "en": "Energy this session",
+            "nl": "Energie laadsessie"
+          }
+        },
+        "meter_power.today": {
+          "decimals": 2,
+          "title": {
+            "en": "Energy today",
+            "nl": "Energie vandaag"
+          }
+        },
+        "meter_power": {
+          "decimals": 2,
+          "title": {
+            "en": "Energy total (import)",
+            "nl": "Energie totaal (afname)"
+          }
+        },
+        "meter_power.exported": {
+          "decimals": 2,
+          "title": {
+            "en": "Energy total (export)",
+            "nl": "Energie totaal (teruglevering)"
+          }
+        },
+        "measure_power.l1": {
+          "decimals": 0,
+          "title": {
+            "en": "Power L1",
+            "nl": "Vermogen L1"
+          }
+        },
+        "measure_voltage.l1": {
+          "decimals": 1,
+          "title": {
+            "en": "Voltage L1",
+            "nl": "Spanning L1"
+          }
+        },
+        "measure_current.l1": {
+          "decimals": 2,
+          "title": {
+            "en": "Current L1",
+            "nl": "Stroom L1"
+          }
+        },
+        "measure_power.l2": {
+          "decimals": 0,
+          "title": {
+            "en": "Power L2",
+            "nl": "Vermogen L2"
+          }
+        },
+        "measure_voltage.l2": {
+          "decimals": 1,
+          "title": {
+            "en": "Voltage L2",
+            "nl": "Spanning L2"
+          }
+        },
+        "measure_current.l2": {
+          "decimals": 2,
+          "title": {
+            "en": "Current L2",
+            "nl": "Stroom L2"
+          }
+        },
+        "measure_power.l3": {
+          "decimals": 0,
+          "title": {
+            "en": "Power L3",
+            "nl": "Vermogen L3"
+          }
+        },
+        "measure_voltage.l3": {
+          "decimals": 1,
+          "title": {
+            "en": "Voltage L3",
+            "nl": "Spanning L3"
+          }
+        },
+        "measure_current.l3": {
+          "decimals": 2,
+          "title": {
+            "en": "Current L3",
+            "nl": "Stroom L3"
+          }
+        }
+      },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/dtsu666/assets/images/small.png",
+        "large": "/drivers/dtsu666/assets/images/large.png",
+        "xlarge": "/drivers/dtsu666/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "start"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Connection",
+            "nl": "Verbinding"
+          },
+          "children": [
+            {
+              "id": "address",
+              "type": "text",
+              "value": "192.168.1.100",
+              "label": {
+                "en": "IP address converter",
+                "nl": "IP-adres converter"
+              }
+            },
+            {
+              "id": "port",
+              "type": "number",
+              "value": 502,
+              "min": 1,
+              "max": 65535,
+              "step": 1,
+              "label": {
+                "en": "Port",
+                "nl": "Poort"
+              }
+            },
+            {
+              "id": "unit_id",
+              "type": "number",
+              "value": 1,
+              "min": 1,
+              "max": 247,
+              "step": 1,
+              "label": {
+                "en": "Modbus address meter",
+                "nl": "Modbus-adres meter"
+              },
+              "hint": {
+                "en": "Shown on the meter display (default 1).",
+                "nl": "Staat op het display van de meter (standaard 1)."
+              }
+            },
+            {
+              "id": "protocol",
+              "type": "dropdown",
+              "value": "auto",
+              "label": {
+                "en": "Protocol",
+                "nl": "Protocol"
+              },
+              "hint": {
+                "en": "Automatic tries Modbus TCP first, then RTU over TCP (transparent converter).",
+                "nl": "Automatisch probeert eerst Modbus TCP, daarna RTU over TCP (transparante converter)."
+              },
+              "values": [
+                {
+                  "id": "auto",
+                  "label": {
+                    "en": "Automatic",
+                    "nl": "Automatisch"
+                  }
+                },
+                {
+                  "id": "tcp",
+                  "label": {
+                    "en": "Modbus TCP (gateway mode)",
+                    "nl": "Modbus TCP (gateway-modus)"
+                  }
+                },
+                {
+                  "id": "rtu",
+                  "label": {
+                    "en": "Modbus RTU over TCP (transparent)",
+                    "nl": "Modbus RTU over TCP (transparant)"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "polling",
+              "type": "number",
+              "value": 10,
+              "min": 2,
+              "max": 3600,
+              "step": 1,
+              "units": {
+                "en": "s"
+              },
+              "label": {
+                "en": "Polling interval",
+                "nl": "Pollinginterval"
+              }
+            },
+            {
+              "id": "invert",
+              "type": "checkbox",
+              "value": false,
+              "label": {
+                "en": "Invert direction",
+                "nl": "Richting omkeren"
+              },
+              "hint": {
+                "en": "Enable when the meter is wired the other way round (negative power while charging): swaps sign and import/export.",
+                "nl": "Aanzetten als de meter omgekeerd is aangesloten (negatief vermogen tijdens het laden): keert het teken om en wisselt afname/teruglevering."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Charging sessions",
+            "nl": "Laadsessies"
+          },
+          "children": [
+            {
+              "id": "start_threshold",
+              "type": "number",
+              "value": 1000,
+              "min": 10,
+              "max": 50000,
+              "step": 10,
+              "units": {
+                "en": "W"
+              },
+              "label": {
+                "en": "Charging starts above",
+                "nl": "Laden start boven"
+              }
+            },
+            {
+              "id": "stop_threshold",
+              "type": "number",
+              "value": 200,
+              "min": 0,
+              "max": 50000,
+              "step": 10,
+              "units": {
+                "en": "W"
+              },
+              "label": {
+                "en": "Charging stops below",
+                "nl": "Laden stopt onder"
+              }
+            },
+            {
+              "id": "stop_delay",
+              "type": "number",
+              "value": 300,
+              "min": 0,
+              "max": 7200,
+              "step": 10,
+              "units": {
+                "en": "s"
+              },
+              "label": {
+                "en": "Stop delay",
+                "nl": "Stopvertraging"
+              },
+              "hint": {
+                "en": "Power must stay below the stop threshold this long before the session ends (cars pause while balancing or preconditioning).",
+                "nl": "Zo lang moet het vermogen onder de stopdrempel blijven voor de sessie eindigt (auto's pauzeren soms tijdens balanceren of voorverwarmen)."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Extra registers (read only)",
+            "nl": "Extra registers (alleen lezen)"
+          },
+          "children": [
+            {
+              "id": "custom_registers",
+              "type": "textarea",
+              "value": "# naam ; input|holding ; adres ; type ; factor ; eenheid\n# Voorbeelden (DTSU666, holding, FLOAT32):\n# Blindvermogen ; holding ; 0x201A ; FLOAT32 ; 0.1 ; var\n# Spanning L1-L2 ; holding ; 0x2000 ; FLOAT32 ; 0.1 ; V\n# Arbeidsfactor L1 ; holding ; 0x202C ; FLOAT32 ; 0.001 ;\n",
+              "label": {
+                "en": "Extra registers",
+                "nl": "Extra registers"
+              },
+              "hint": {
+                "en": "One per line: name ; input|holding ; address (decimal or 0x hex) ; type (FLOAT32, UINT16, INT16, UINT32, INT32) ; factor ; unit. Lines starting with # are ignored.",
+                "nl": "Eén per regel: naam ; input|holding ; adres (decimaal of 0x-hex) ; type (FLOAT32, UINT16, INT16, UINT32, INT32) ; factor ; eenheid. Regels die met # beginnen worden genegeerd."
+              }
+            }
+          ]
+        }
+      ],
+      "id": "dtsu666"
+    }
+  ],
+  "capabilities": {
+    "charging": {
+      "type": "boolean",
+      "title": {
+        "en": "Charging",
+        "nl": "Aan het laden"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Charging started",
+        "nl": "Laden gestart"
+      },
+      "insightsTitleFalse": {
+        "en": "Charging stopped",
+        "nl": "Laden gestopt"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/charging.svg"
+    },
+    "dtsu_custom": {
+      "type": "number",
+      "title": {
+        "en": "Extra register",
+        "nl": "Extra register"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "decimals": 2,
+      "uiComponent": "sensor",
+      "icon": "/assets/pf.svg"
+    },
+    "measure_frequency": {
+      "type": "number",
+      "title": {
+        "en": "Frequency",
+        "nl": "Frequentie"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "decimals": 2,
+      "units": {
+        "en": "Hz"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/pf.svg"
+    },
+    "power_factor": {
+      "type": "number",
+      "title": {
+        "en": "Power factor",
+        "nl": "Arbeidsfactor"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "decimals": 2,
+      "min": -1,
+      "max": 1,
+      "uiComponent": "sensor",
+      "icon": "/assets/pf.svg"
+    },
+    "session_duration": {
+      "type": "number",
+      "title": {
+        "en": "Session duration",
+        "nl": "Duur laadsessie"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "decimals": 0,
+      "units": {
+        "en": "min"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/charging.svg"
+    }
+  }
+}
